@@ -16,6 +16,7 @@ def _get_tshark_path():
 
 def pcap2tsv_with_tshark(path, tshark_path, output_queue):
     fields = ("-e frame.time_epoch -e frame.len "
+              "-e frame.protocols "
               "-e sll.src.eth " 
               "-e eth.src -e eth.dst " 
               "-e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e udp.srcport "
@@ -40,7 +41,7 @@ if __name__ == '__main__':
     input_basepath = "."
     tshark_path = _get_tshark_path()
 
-    input_files = [f"{i}.pcap" for i in range(1, 28)]
+    input_files = [f"{i}.pcap" for i in range(1, 6)]
 
     manager = Manager()
     output_queue = manager.Queue()
