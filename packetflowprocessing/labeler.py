@@ -46,39 +46,32 @@ def delete_file_if_exists(filename):
         os.remove(filename)
 
 def get_flow_tuple_for_matching(row):
+    """Get flow tuple based on the provided row."""
     src_ip, dst_ip = row.get('ip.src', '0.0.0.0'), row.get('ip.dst', '0.0.0.0')
     src_port, dst_port = '0', '0'
-    proto = 'other'
+    proto = row.get('protocol', 'unknown')
     
     # TCP
-    if row['tcp.srcport'] and row['tcp.dstport']:
-        proto = 'tcp'
-        src_ip, dst_ip = row['ip.src'], row['ip.dst']
+    if proto == 'tcp':
         src_port, dst_port = row['tcp.srcport'], row['tcp.dstport']
     
     # UDP
-    elif row['udp.srcport'] and row['udp.dstport']:
-        proto = 'udp'
-        src_ip, dst_ip = row['ip.src'], row['ip.dst']
+    elif proto == 'udp':
         src_port, dst_port = row['udp.srcport'], row['udp.dstport']
     
     # ICMP
-    elif row['icmp.type'] and row['icmp.code']:
-        proto = 'icmp'
+    elif proto == 'icmp':
+        pass
     
     # ARP
-    elif row['arp.opcode']:
-        proto = 'arp'
+    elif proto == 'arp':
         src_ip, dst_ip = row['arp.src.proto_ipv4'], row['arp.dst.proto_ipv4']
     
     # IPv6
-    elif row['ipv6.src'] and row['ipv6.dst']:
+    elif 'ipv6.src' in row and 'ipv6.dst' in row:
         src_ip, dst_ip = row['ipv6.src'], row['ipv6.dst']
-        if row['udp.srcport'] and row['udp.dstport']:
+        if 'udp.srcport' in row and 'udp.dstport' in row:
             src_port, dst_port = row['udp.srcport'], row['udp.dstport']
-            proto = 'udp/ipv6'
-        else:
-            proto = 'ipv6'
 
     timestamp = row['frame.time_epoch']
 
@@ -123,8 +116,8 @@ def process_files(packet_file, flow_file, output_file, print_interval, max_lines
 
             flow_forward, flow_backward, proto = get_flow_tuple_for_matching(working_row)
             
-            #print(f"Flow forward: {flow_forward}, Flow backward: {flow_backward}, proto: {proto}")
-
+            #print(f"Flow forward: {flow_forward}, Flow backward: {flow_backward}, proto: {proto}")            
+            
             flow_data = flows.get(flow_forward, flows.get(flow_backward, ('unknown', None, None, 'unknown', 'unknown')))
             packet_time = float(working_row['frame.time_epoch'])
             
@@ -133,13 +126,9 @@ def process_files(packet_file, flow_file, output_file, print_interval, max_lines
             if flow_data[1] is not None and flow_data[2] is not None and flow_data[1] <= round(packet_time,0) <= flow_data[2]:
                 row['Label'] = flow_data[0]
                 row['Attack Category'] = flow_data[3]
-                row['old_protocol'] = proto # Modify this to whatever field name holds the protocol info in the packet file
-                row['proto'] = flow_data[4] # new protocol
             else:
                 row['Label'] = 'unknown'
                 row['Attack Category'] = 'unknown'
-                row['old_protocol'] = proto
-                row['proto'] = 'unknown'
 
             writer.writerow(row)
 
