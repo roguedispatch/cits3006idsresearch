@@ -6,35 +6,49 @@ import os
 import datetime
 
 def collapse_flows(filename):
-    collapsed = defaultdict(lambda: {"start_time": float('inf'), "end_time": -float('inf'), "label": "BENIGN", "attack_cat": "None"})
+    collapsed = defaultdict(list)
 
     with open(filename, 'r') as f:
         reader = csv.reader(f)
         headers = [header.strip() for header in next(reader)]
+        
         for row in reader:
-            # Extract start time and duration
-            timestamp_epoch = float(row[headers.index("Stime")])
-            duration = float(row[headers.index("dur")])
-            end_time = timestamp_epoch + duration
-
-            # Based on the 5-tuple (Source IP, Source Port, Destination IP, Destination Port, Protocol)
-            key = tuple(row[headers.index(i)] for i in ["srcip", "sport", "dstip", "dsport", "proto"])
-            if timestamp_epoch < collapsed[key]["start_time"]:
-                collapsed[key]["start_time"] = timestamp_epoch
-            if end_time > collapsed[key]["end_time"]:
-                collapsed[key]["end_time"] = end_time
-            if row[headers.index("Label")] != '0':
-                collapsed[key]["label"] = 'ATTACK'
-                collapsed[key]["attack_cat"] = row[headers.index("attack_cat")]
+            # Extract key data: 5-tuple, start time, end time
+            key = tuple(row[headers.index(i)] for i in ["srcip", "sport", "dstip", "dsport", "proto", "Stime", "Ltime"])
+            
+            # Find existing record or create new one
+            existing = None
+            for rec in collapsed[key]:
+                if rec["start_time"] == row[headers.index("Stime")] and rec["end_time"] == row[headers.index("Ltime")]:
+                    existing = rec
+                    break
+            
+            if existing:
+                # Update existing record if label is not BENIGN
+                if row[headers.index("Label")] != '0':
+                    existing["label"] = 'ATTACK'
+                    existing["attack_cat"] = row[headers.index("attack_cat")]
+            else:
+                # Add new record
+                collapsed[key].append({
+                    "start_time": row[headers.index("Stime")],
+                    "end_time": row[headers.index("Ltime")],
+                    "label": 'ATTACK' if row[headers.index("Label")] != '0' else 'BENIGN',
+                    "attack_cat": row[headers.index("attack_cat")]
+                })
 
     new_filename = filename.split(".")[0] + "_collapsed.csv"
 
     with open(new_filename, 'w', newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(['Source IP', 'Source Port', 'Destination IP', 'Destination Port', 'Protocol', 'Start Time', 'End Time', 'Label', 'Attack Category'])
-        for key, data in collapsed.items():
-            new_row = list(key) + [data["start_time"], data["end_time"], data["label"], data["attack_cat"]]
-            writer.writerow(new_row)
+        headers = ['Source IP', 'Source Port', 'Destination IP', 'Destination Port', 'Protocol', 'Start Time', 'End Time', 'Label', 'Attack Category']
+        writer.writerow(headers)
+        
+        for key, entries in collapsed.items():
+            for entry in entries:
+                new_row = list(key[:-2]) + [entry["start_time"], entry["end_time"], entry["label"], entry["attack_cat"]]
+                writer.writerow(new_row)
+
     return new_filename
 
 def flow_tuple_to_string(flow_tuple):
@@ -47,9 +61,14 @@ def delete_file_if_exists(filename):
 
 def get_flow_tuple_for_matching(row):
     """Get flow tuple based on the provided row."""
-    src_ip, dst_ip = row.get('ip.src', '0.0.0.0'), row.get('ip.dst', '0.0.0.0')
+    src_ip = row.get('ip.src', '0.0.0.0')
+    dst_ip = row.get('ip.dst', '0.0.0.0')
     src_port, dst_port = '0', '0'
     proto = row.get('protocol', 'unknown')
+    
+    # OSPF (for debugging)
+    #if proto == 'ospf':
+    #    print(f"Before OSPF adjustments: {src_ip}, {dst_ip}, {src_port}, {dst_port}, {proto}")
     
     # TCP
     if proto == 'tcp':
@@ -69,16 +88,19 @@ def get_flow_tuple_for_matching(row):
     
     # IPv6
     elif 'ipv6.src' in row and 'ipv6.dst' in row:
-        src_ip, dst_ip = row['ipv6.src'], row['ipv6.dst']
+        src_ip, dst_ip = row.get('ipv6.src', src_ip), row.get('ipv6.dst', dst_ip)
         if 'udp.srcport' in row and 'udp.dstport' in row:
             src_port, dst_port = row['udp.srcport'], row['udp.dstport']
 
-    timestamp = row['frame.time_epoch']
+    #if proto == 'ospf':
+    #    print(f"After OSPF adjustments: {src_ip}, {dst_ip}, {src_port}, {dst_port}, {proto}")
 
-    flow_forward = (src_ip, src_port, dst_ip, dst_port)
-    flow_backward = (dst_ip, dst_port, src_ip, src_port)
+    flow_forward = (src_ip, src_port, dst_ip, dst_port, proto)
+    flow_backward = (dst_ip, dst_port, src_ip, src_port, proto)
+
+    #print(f"Flow data: {flow_forward}, {flow_backward}")
     
-    return flow_forward, flow_backward, proto
+    return flow_forward, flow_backward
 
 def process_files(packet_file, flow_file, output_file, print_interval, max_lines):
     flows = {}
@@ -87,12 +109,15 @@ def process_files(packet_file, flow_file, output_file, print_interval, max_lines
         reader = csv.DictReader(infile)
         for row in reader:
             try:
-                flow_tuple = (row['Source IP'], row['Source Port'], row['Destination IP'], row['Destination Port'])
+                flow_tuple = (row['Source IP'], row['Source Port'], row['Destination IP'], row['Destination Port'], row['Protocol'])
                 label = 'ATTACK' if row['Label'] != 'BENIGN' else 'BENIGN'
                 start_time = float(row['Start Time'])
-                end_time = round(float(row['End Time']),0)
+                end_time = float(row['End Time'])
                 category = row['Attack Category']
-                flows[flow_tuple] = (label, start_time, end_time, category, row['Protocol'])
+
+                if flow_tuple not in flows:
+                    flows[flow_tuple] = []
+                flows[flow_tuple].append((start_time, end_time, label, category))
             except ValueError as ve:
                 print(f"Error parsing line: {row}")
                 print(f"Error message: {ve}")
@@ -103,7 +128,7 @@ def process_files(packet_file, flow_file, output_file, print_interval, max_lines
     with open(packet_file, 'r') as infile, open(output_file, 'w', newline='') as outfile:
         reader = csv.DictReader(infile, delimiter='\t')
         fieldnames = reader.fieldnames
-        fieldnames.extend(['Label', 'Attack Category', 'old_protocol', 'proto'])
+        fieldnames.extend(['Label', 'Attack Category', 'Flow ID'])
 
         writer = csv.DictWriter(outfile, fieldnames=fieldnames)
         writer.writeheader()
@@ -113,23 +138,28 @@ def process_files(packet_file, flow_file, output_file, print_interval, max_lines
                 break
 
             working_row = copy.deepcopy(row)
-
-            flow_forward, flow_backward, proto = get_flow_tuple_for_matching(working_row)
-            
-            #print(f"Flow forward: {flow_forward}, Flow backward: {flow_backward}, proto: {proto}")            
-            
-            flow_data = flows.get(flow_forward, flows.get(flow_backward, ('unknown', None, None, 'unknown', 'unknown')))
+            flow_forward, flow_backward = get_flow_tuple_for_matching(working_row)
             packet_time = float(working_row['frame.time_epoch'])
+
+            def find_flow_data(flow_key):
+                for time_start, time_end, label, category in flows.get(flow_key, []):
+                    if time_start <= int(round(packet_time, 0)) <= time_end:
+                        return label, category, time_start
+                return 'unknown', 'unknown', 'unknown'
+
+            # Check both forward and backward flows
+            label, category, time_start = find_flow_data(flow_forward)
+            if label == 'unknown':
+                label, category, time_start = find_flow_data(flow_backward)
+
+            row['Label'] = label
+            row['Attack Category'] = category
+            # Flow ID should be the flow tuple to string + the start time of the flow
+            row['Flow ID'] = flow_tuple_to_string(flow_forward) + "-" + str(time_start)
+
+            #if row['protocol'] == 'arp':
+            #    print(f"Row data: {row}")
             
-            #print(f"Flow data: {flow_data}, packet time: {round(packet_time,0)}")
-
-            if flow_data[1] is not None and flow_data[2] is not None and flow_data[1] <= round(packet_time,0) <= flow_data[2]:
-                row['Label'] = flow_data[0]
-                row['Attack Category'] = flow_data[3]
-            else:
-                row['Label'] = 'unknown'
-                row['Attack Category'] = 'unknown'
-
             writer.writerow(row)
 
             if idx % print_interval == 0:
