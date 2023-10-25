@@ -12,26 +12,20 @@ def sample_and_combine_csv(file, output_file, x_benign, y_benign, z_attack):
         for row in reader:
             flow_id_to_rows_map[row['Flow ID']].append(row)
 
-    # Separate flows into BENIGN and ATTACK
     benign_flows = {fid: rows for fid, rows in flow_id_to_rows_map.items() if rows[0]['Label'] == 'BENIGN'}
     attack_flows = {fid: rows for fid, rows in flow_id_to_rows_map.items() if rows[0]['Label'] == 'ATTACK'}
 
-    # Get first x BENIGN flows
     initial_benign_flows = list(benign_flows.values())[:x_benign]
 
-    # Remove selected flows from pool for random sampling
     for flow in initial_benign_flows:
         del benign_flows[flow[0]['Flow ID']]
 
-    # Randomly sample additional y BENIGN and z ATTACK flows
     sampled_additional_benign = random.sample(list(benign_flows.values()), min(y_benign, len(benign_flows)))
     sampled_attack = random.sample(list(attack_flows.values()), min(z_attack, len(attack_flows)))
 
-    # Shuffle the additional flows
     additional_flows = sampled_additional_benign + sampled_attack
     random.shuffle(additional_flows)
 
-    # Combine flows and write to output file
     combined_flows = initial_benign_flows + additional_flows
     with open(output_file, 'w', newline='') as out_file:
         writer = csv.DictWriter(out_file, fieldnames=headers)
@@ -39,7 +33,6 @@ def sample_and_combine_csv(file, output_file, x_benign, y_benign, z_attack):
         for flow in combined_flows:
             writer.writerows(flow)
 
-    # Count packets in each set
     packet_counts = Counter({'x': sum(len(flow) for flow in initial_benign_flows),
                              'y': sum(len(flow) for flow in sampled_additional_benign),
                              'z': sum(len(flow) for flow in sampled_attack)})
