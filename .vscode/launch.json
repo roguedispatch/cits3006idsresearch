@@ -11,7 +11,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "cwd" : "C:\\Users\\Daniel Cheng\\UWA\\GitRepos\\cits3006idsresearch\\ToN_IoT",
-            "args" : ["ScanningFirstTwo.tsv", "Flows/CombinedFlows.csv", "TestScanning2.csv", "100000"],
+            "args" : ["ScanningFirstTwo.tsv", "Flows/CombinedFlows.csv", "TestScanning2v2.csv", "100000"],
             "justMyCode": true
         }
     ]
