@@ -14,7 +14,7 @@ headers = [
 ]
 print(len(headers))
 # File names
-files = [f"Flows/Network_dataset_{i}.csv" for i in range(1, 2)]
+files = [f"Flows/Network_dataset_{i}.csv" for i in range(1, 24)]
 
 # Output file
 output_file = "Flows/CombinedFlows.csv"

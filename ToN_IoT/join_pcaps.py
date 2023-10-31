@@ -32,7 +32,7 @@ def get_top_level_protocol(protocol_stack):
     return protocol_stack.split(':')[-1]
 
 def combine_tsvs(start, end, output_file):
-    first_file = f"Raw/normal_scanning{start}.pcap.tsv"
+    first_file = f"Raw/normal_{start}.pcap.tsv"
     original_headers = read_headers(first_file)
     
     output_headers = list(original_headers)
@@ -48,7 +48,7 @@ def combine_tsvs(start, end, output_file):
         writer.writerow(output_headers)
 
         for i in range(start, end + 1):
-            current_file = f"Raw/normal_scanning{i}.pcap.tsv"
+            current_file = f"Raw/normal_{i}.pcap.tsv"
             current_headers = read_headers(current_file)
             if set(current_headers) != set(original_headers):
                 print(f"Warning: Headers in {current_file} do not match the original headers. Skipping file.")
@@ -71,5 +71,5 @@ def combine_tsvs(start, end, output_file):
         print(f"Combined TSV written to {output_file}")
 
 start, end = 1, 2
-output_file = 'ScanningFirstTwo.tsv'
+output_file = 'NormalFirstTwo.tsv'
 combine_tsvs(start, end, output_file)

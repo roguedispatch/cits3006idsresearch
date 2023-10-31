@@ -74,5 +74,5 @@ def combine_tsvs(start, end, output_file):
 
 # Todo EDIT BELOW
 start, end = 1, 3
-output_file = 'ScanningFirstThree.tsv'
+output_file = 'FourDDoS.tsv'
 combine_tsvs(start, end, output_file)

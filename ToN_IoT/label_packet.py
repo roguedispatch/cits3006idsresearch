@@ -30,12 +30,16 @@ def collapse_flows(filename):
                     existing["type"] = row[headers.index("type")]
             else:
                 # Add new record
-                collapsed[key].append({
-                    "start_time": row[headers.index("ts")],
-                    "end_time": float(row[headers.index("ts")]) + float(row[headers.index("duration")]),
-                    "label": 'ATTACK' if row[headers.index("label")] != '0' else 'BENIGN',
-                    "type": row[headers.index("type")]
-                })
+                try:
+                    collapsed[key].append({
+                        "start_time": row[headers.index("ts")],
+                        "end_time": float(row[headers.index("ts")]) + float(row[headers.index("duration")]),
+                        "label": 'ATTACK' if row[headers.index("label")] != '0' else 'BENIGN',
+                        "type": row[headers.index("type")]
+                    })
+                except: 
+                    print(row)
+                    print( "ERR " , reader.line_num )
 
     new_filename = filename.split(".")[0] + "_collapsed.csv"
 
