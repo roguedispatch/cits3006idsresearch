@@ -18,4 +18,4 @@ Add all flows and alter join_flows_files
 
 ## Label combined pcaps with flow data 
 
-`python3 label_packet.py ScanningFirstThree.tsv Flows/CombinedFlows.csv FinalOutput.csv 100000`
+`python3 label_packet.py FourDDoS.tsv Flows/CombinedFlows.csv FinalOutput.csv 100000`
