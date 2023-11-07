@@ -41,11 +41,12 @@ def combine_csv_files(files, output_file):
 
 
 if __name__ == "__main__":
-    file1 = "datasets/MachineLearningCVE/Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv"
+
+    file1 = "datasets/TrafficLabelling/Friday-WorkingHours-Morning.pcap_ISCX.csv"
     file2 = (
-        "datasets/MachineLearningCVE/Friday-WorkingHours-Afternoon-PortScan.pcap_ISCX.csv"
+        "datasets/TrafficLabelling/Friday-WorkingHours-Afternoon-PortScan.pcap_ISCX.csv"
     )
-    file3 = "datasets/MachineLearningCVE/Friday-WorkingHours-Morning.pcap_ISCX.csv"
+    file3 = "datasets/TrafficLabelling/Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv"
     output_file = "Friday-WorkingHours-Full.csv"
 
     combine_csv_files([file1, file2, file3], output_file)
