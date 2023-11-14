@@ -78,11 +78,11 @@ def run_csv_through(orig_file_name,filename,num_training):
     model.add(Activation('sigmoid'))
 
     # try using different optimizers and different optimizer configs
-    # model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
-    # checkpointer = callbacks.ModelCheckpoint(filepath="results/"+orig_file_name+"/dnn3layer/checkpoint-{epoch:02d}.hdf5", verbose=1, save_best_only=True, monitor='loss')
-    # csv_logger = CSVLogger('results/'+orig_file_name+'/dnn3layer/training_set_dnnanalysis.csv',separator=',', append=False)
-    # model.fit(X_train, y_train,  batch_size=batch_size, epochs=100, callbacks=[checkpointer,csv_logger])
-    # model.save("results/"+orig_file_name+"/dnn3layer/dnn3layer_model.hdf5")
+    model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
+    checkpointer = callbacks.ModelCheckpoint(filepath="results/"+orig_file_name+"/dnn3layer/checkpoint-{epoch:02d}.hdf5", verbose=1, save_best_only=True, monitor='loss')
+    csv_logger = CSVLogger('results/'+orig_file_name+'/dnn3layer/training_set_dnnanalysis.csv',separator=',', append=False)
+    model.fit(X_train, y_train,  batch_size=batch_size, epochs=100, callbacks=[checkpointer,csv_logger])
+    model.save("results/"+orig_file_name+"/dnn3layer/dnn3layer_model.hdf5")
 
 if __name__ == "__main__":
     print(sys.argv)

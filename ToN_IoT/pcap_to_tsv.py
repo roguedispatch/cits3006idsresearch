@@ -41,7 +41,7 @@ if __name__ == '__main__':
     input_basepath = "."
     tshark_path = _get_tshark_path()
 
-    input_files = [f"Raw/normal_{i}.pcap" for i in range(1, 3)]
+    input_files = [f"Raw/testing{i}.pcap" for i in range(1, 5)]
     for i in input_files: 
         print(os.path.join(input_basepath, i))
     manager = Manager()
