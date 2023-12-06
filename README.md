@@ -24,8 +24,8 @@ File Structure
 /BoT_IoT: Contains the BoT_IoT related processing scripts.
 /CICIDS2017: Contains the CICIDS2017 related processing scripts.
 /CTU: Contains the CTU related processing scripts.
-/EditedHELAD: Contains the HELAD IDS with the RMSE output.
-/EditedKitsune: Contains the Kitsune IDS with the RMSE output.
+/EditedHELAD: Contains the HELAD IDS edited to output the RMSE output.
+/EditedKitsune: Contains the Kitsune IDS edited to output the RMSE output.
 /ResultsScripts: Contains the scripts used to process the results.
 /Straosphere: Contains the BOTIOT assets for Straosphere.
 /ToN_IoT: Contains the ToN_IoT related processing scripts.
