@@ -32,6 +32,7 @@ def convert_csv_to_tsv(input_csv, output_tsv):
 #    zip_ref.extractall()
 
 # File location
+#TODO: Update the paths
 input_file = "BoT_100ktrain_Sampled.csv"
 converted_file = "BoT_100ktrain_Sampled.tsv"
 
@@ -42,6 +43,7 @@ path = converted_file  # Update path to point to the TSV file
 packet_limit = np.Inf
 #49861 From Monday
 # KitNET params:
+# Update these parameters based on the datasets
 maxAE = 10
 FMgrace = 25000
 ADgrace = 75000
@@ -50,6 +52,7 @@ ADgrace = 75000
 K = Kitsune(path, packet_limit, maxAE, FMgrace, ADgrace)
 
 # Create an output file
+#TODO: Update the path
 output_file = "output_with_rmse_unsw_sample.tsv"
 
 print("Running Kitsune:")

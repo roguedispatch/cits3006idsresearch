@@ -1,4 +1,4 @@
-# Datasets for CICIDS2017
+# Datasets for CTU-13
 https://www.stratosphereips.org/datasets-iot23
 
 The packet and labelled log files are required for processing

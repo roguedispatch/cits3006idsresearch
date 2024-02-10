@@ -26,16 +26,18 @@ def convert_csv_to_tsv(input_csv, output_tsv):
         for line in csv_file:
             tsv_file.write(line.replace(',', '\t'))
 
-# File location
+# TODO: Update the paths
 input_file = "BoT_100ktrain_Sampled.csv"
 converted_file = "BoT_100ktrain_Sampled.tsv"
 
 # Convert CSV to TSV if needed
 convert_csv_to_tsv(input_file, converted_file)
 
+#TODO: Update the path
 # Load the original TSV file into a DataFrame
 original_df = pd.read_csv("BoT_100ktrain_Sampled.tsv", sep='\t')
 
+#TODO: Update the path
 # Feature extraction
 fe = FE("BoT_100ktrain_Sampled.tsv")
 X_unormalized = fe.feature_extract()
