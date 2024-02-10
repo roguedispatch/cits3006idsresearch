@@ -7,7 +7,7 @@ The datasets included in this study are:
     BoT_IoT
     CICIDS2017
     CTU
-    ToN_IoT
+    Mirari
     UNSW
 These datasets are used to evaluate the effectiveness of the IDS systems.
 
@@ -28,7 +28,6 @@ File Structure
 /EditedKitsune: Contains the Kitsune IDS edited to output the RMSE output.
 /ResultsScripts: Contains the scripts used to process the results.
 /Straosphere: Contains the BOTIOT assets for Straosphere.
-/ToN_IoT: Contains the ToN_IoT related processing scripts.
 /UNSW: Contains the UNSW related processing scripts.
 /kitsune_to_sdn.py: Script to adapt Kitsune output for SDN environments.
 /stratosphere_processing.ipynb: Jupyter notebook for processing data for Straosphere.
