@@ -47,6 +47,7 @@ def combine_csvs(file1, file2, output_file):
         if only_in_file2:
             print(f"Headers only in {file2}: {', '.join(only_in_file2)}")
 
+#TODO: Update the file names
 file1 = 'Thursday-WorkingHours-Morning-WebAttacks.pcap_ISCX.csv'
 file2 = 'Thursday-WorkingHours-Afternoon-Infilteration.pcap_ISCX.csv'
 output_file = 'Thursday-WorkingHours-Full.csv'

@@ -22,7 +22,6 @@ with open(output_file, "w", newline="") as outfile:
         with open(file, "r", newline="") as infile:
             reader = csv.reader(infile)
             for row in reader:
-                # Todo EDIT BELOW
                 if len(row) != 35:
                     print(f"File {file} has an incorrect number of columns on row {row} with len {len(row)}.")
                     break

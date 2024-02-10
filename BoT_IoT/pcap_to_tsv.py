@@ -5,6 +5,7 @@ from multiprocessing import Pool, Manager, cpu_count
 
 def _get_tshark_path():
     if platform.system() == 'Windows':
+        # TODO: Change this to the correct path
         return r'C:\Program Files\Wireshark\tshark.exe'
     else:
         system_path = os.environ['PATH']
@@ -40,7 +41,7 @@ if __name__ == '__main__':
     # File paths
     input_basepath = "."
     tshark_path = _get_tshark_path()
-    # Todo EDIT BELOW
+    # TODO EDIT BELOW
     input_files = [f"Raw/IoT_Dataset_OSScan__0000{i}.pcap" for i in range(1, 4)]
     manager = Manager()
     output_queue = manager.Queue()

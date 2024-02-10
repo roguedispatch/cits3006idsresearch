@@ -32,7 +32,7 @@ def get_top_level_protocol(protocol_stack):
     return protocol_stack.split(':')[-1]
 
 def combine_tsvs(start, end, output_file):
-    # Todo EDIT BELOW
+    #TODO: Update the first_file variable to match the naming convention of the files
     first_file = f"Raw/IoT_Dataset_OSScan__0000{start}.pcap.tsv"
     original_headers = read_headers(first_file)
     
@@ -49,7 +49,6 @@ def combine_tsvs(start, end, output_file):
         writer.writerow(output_headers)
 
         for i in range(start, end + 1):
-            # Todo EDIT BELOW
             current_file = f"Raw/IoT_Dataset_OSScan__0000{start}.pcap.tsv"
             current_headers = read_headers(current_file)
             if set(current_headers) != set(original_headers):
@@ -72,7 +71,6 @@ def combine_tsvs(start, end, output_file):
 
         print(f"Combined TSV written to {output_file}")
 
-# Todo EDIT BELOW
 start, end = 1, 3
 output_file = 'FourDDoS.tsv'
 combine_tsvs(start, end, output_file)
