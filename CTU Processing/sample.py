@@ -68,7 +68,7 @@ def add_labels_and_sample_csv(csv_file_path, label_mapping, sample_sizes, output
                 print(f"Sampled all requested rows for each file at row number {reader.line_num}.")
                 break
 
-# File paths
+# TODO: Update the paths
 conn_log_labeled_path = 'conn.log.labeled' 
 combined_csv_path = 'combined_output.csv'
 output_csv_path = 'sample_output_with_labels.csv'
