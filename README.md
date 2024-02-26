@@ -1,33 +1,22 @@
-Benchmarking IDS Systems
-Overview
-This repository contains the necessary code and datasets for the research paper on benchmarking Intrusion Detection Systems (IDS). It includes various datasets and scripts to process and analyze the performance of different IDS systems.
+# Overview
 
-Datasets
-The datasets included in this study are:
-    BoT_IoT
-    CICIDS2017
-    CTU
-    Mirari
-    UNSW
-These datasets are used to evaluate the effectiveness of the IDS systems.
+This section relates to the adaptation of the Shallow and Deep Neural Networks papers' 3 layer deep neural network algorithm to a range of provided datasets. The kitsune data fields were used as the standard for this research, and thus that format has been translated to a form usable by the SDNN algorithm. 
 
-IDS Systems
-The IDS systems evaluated in this research are:
-    Kitsune
-    HELAD
-    Stratosphere
-    SDN
-Modifications were made to Kitsune and HELAD to ensure that they output CSV files with the Root Mean Square Error (RMSE) scores.
+# Building the environment
 
-File Structure
-/Archive: Contains working and older versions of code
-/BoT_IoT: Contains the BoT_IoT related processing scripts.
-/CICIDS2017: Contains the CICIDS2017 related processing scripts.
-/CTU: Contains the CTU related processing scripts.
-/EditedHELAD: Contains the HELAD IDS edited to output the RMSE output.
-/EditedKitsune: Contains the Kitsune IDS edited to output the RMSE output.
-/ResultsScripts: Contains the scripts used to process the results.
-/Straosphere: Contains the BOTIOT assets for Straosphere.
-/UNSW: Contains the UNSW related processing scripts.
-/kitsune_to_sdn.py: Script to adapt Kitsune output for SDN environments.
-/stratosphere_processing.ipynb: Jupyter notebook for processing data for Straosphere.
+In this experiment, a python3.10 conda environment was used. The configuration from this environment has been provided in the conda_env.txt file. To replicate this environment, install conda or a variant (miniconda etc.) and run: 
+
+`conda create --name <env_name> --file conda_env.txt`
+
+# Running the code 
+
+The convert_kitsune_file.py was used to translate the files from the kitsune format to the SDNN data format.
+
+In general, to run the SDNN algorithm on a dataset the dataset should contain both training and testing data. 
+The usage of the implemented python script is as follows: 
+
+`python3 kitsune_to_sdnn.py <Input_File> <Number_of_training_rows>`
+
+For example, in our experiment we ran the mirai dataset with 55,000 training rows. To replicate this, run: 
+
+`python3 kitsune_to_sdnn.py Files/mirai.pcap.csv 55000`
