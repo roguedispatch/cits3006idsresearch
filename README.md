@@ -27,7 +27,18 @@ File Structure
 /EditedHELAD: Contains the HELAD IDS edited to output the RMSE output.
 /EditedKitsune: Contains the Kitsune IDS edited to output the RMSE output.
 /ResultsScripts: Contains the scripts used to process the results.
+/SDNN_submit: Contains the scripts required for the SDNN IDS
 /Straosphere: Contains the BOTIOT assets for Straosphere.
 /UNSW: Contains the UNSW related processing scripts.
-/kitsune_to_sdn.py: Script to adapt Kitsune output for SDN environments.
 /stratosphere_processing.ipynb: Jupyter notebook for processing data for Straosphere.
+
+## Usage Guide
+For each of the folders in the repository, there are specific usage instructions.
+
+Each dataset has to be processed to be used in the IDS systems, the processing of each dataset within its specific folder will result in a dataset that can be used within Kitsune and HELAD.
+
+These output files can be processed through SDNN_submit/convert_kitsune_file.py to be used with SDNN.
+
+After converting the datasets to the required format, the IDS folders have specific instructions for running converted output file through each IDS
+
+After gathering the results for each combination of dataset and IDS, the ResultsScripts folder can be used to derive the results for the given dataset.
