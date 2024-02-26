@@ -3,7 +3,7 @@ import sys
 
 # Check if the correct number of command line arguments is provided
 if len(sys.argv) != 2:
-    print("Usage: python script.py input_file.csv")
+    print("Usage: python convert_kitsune_file.py <input_file.csv>")
     sys.exit(1)
 
 # Get the input file name from the command line arguments
