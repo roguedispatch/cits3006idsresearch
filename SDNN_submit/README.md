@@ -10,7 +10,7 @@ In this experiment, a python3.10 conda environment was used. The configuration f
 
 # Running the code 
 
-The convert_kitsune_file.py was used to translate the files from the kitsune format to the SDNN data format.
+The convert_kitsune_file.py was used to translate the files from the kitsune format to the SDNN data format. This was done as the standardised datasets had already been formatted when run through the kitsune format, and the transition from that format to the SDNN format was fairly straightforward. This ensured the datasets were as similar as possible. 
 
 In general, to run the SDNN algorithm on a dataset the dataset should contain both training and testing data. 
 The usage of the implemented python script is as follows: 
