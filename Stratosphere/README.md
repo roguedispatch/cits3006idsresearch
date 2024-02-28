@@ -22,5 +22,5 @@ One of SLIPS' outputs is an SQLite table of flows. These flows can be compared t
 
 An example of such a script can be found in the Jupyter notebook "Stratosphere.ipynb."
 
-All other assets used can be found here: 
+All other assets used can be found here: https://uniwa-my.sharepoint.com/:f:/g/personal/23072152_student_uwa_edu_au/EukIC8Y4JLFHs2DDBXvr3JMBmE0VcN6Rputgkk3Qtx0bfw?e=h9odfd
 
