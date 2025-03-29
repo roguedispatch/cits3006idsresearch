@@ -1,0 +1,8 @@
+dataset = botiot, epochs = 500, epoch_1 = 1, percent = 0.8, flip_percent = 0.05, sample_interval = 2784, cuda_num = 0
+average_accuracy = 0.5337166666666666
+average_precision = 0.9997197707023509
+avereage_recall = 0.533109642094017
+average_f1 = 0.6868174582710103
+total_cm = [[4.38000e+02 4.20000e+01]
+ [1.39843e+05 1.59677e+05]]
+

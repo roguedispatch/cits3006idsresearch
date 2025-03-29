@@ -21,16 +21,20 @@ Modifications were made to Kitsune and HELAD to ensure that they output CSV file
 
 File Structure
 /Archive: Contains working and older versions of code
+/AOC-IDS: Contains the AOC-IDS model with adapted code for accepting other datasets.
+/AOC-IDS Processing: Contains our dataset preprocessing code for the AOC-IDS model
 /BoT_IoT: Contains the BoT_IoT related processing scripts.
 /CICIDS2017: Contains the CICIDS2017 related processing scripts.
 /CTU: Contains the CTU related processing scripts.
 /EditedHELAD: Contains the HELAD IDS edited to output the RMSE output.
 /EditedKitsune: Contains the Kitsune IDS edited to output the RMSE output.
+/NEGSC: Contains the NEGSC model with adapted code for accepting other datasets.
+/NEGSC Processing: Directs to the /NEGSC/NEGSC.ipynb code for the preprocessing modifications
 /ResultsScripts: Contains the scripts used to process the results.
 /SDNN_submit: Contains the scripts required for the SDNN IDS
-/Straosphere: Contains the BOTIOT assets for Straosphere.
+/Straosphere: Contains the BOTIOT assets for Stratosphere.
 /UNSW: Contains the UNSW related processing scripts.
-/stratosphere_processing.ipynb: Jupyter notebook for processing data for Straosphere.
+/stratosphere_processing.ipynb: Jupyter notebook for processing data for Stratosphere.
 
 ## Usage Guide
 For each of the folders in the repository, there are specific usage instructions.

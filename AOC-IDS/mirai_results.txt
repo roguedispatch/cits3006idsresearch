@@ -1,0 +1,22 @@
+dataset = mirai, epochs = 800, epoch_1 = 1, percent = 0.8, flip_percent = 0.05, sample_interval = 2784, cuda_num = 0
+average_accuracy = 0.5551957935519579
+average_precision = 0.39801312369719244
+avereage_recall = 0.32066957787481803
+average_f1 = 0.3394065317230441
+
+dataset = mirai, epochs = 2, epoch_1 = 1, percent = 0.8, flip_percent = 0.05, sample_interval = 2784, cuda_num = 0
+average_accuracy = 0.5728794797287948
+average_precision = 0.3993499993127997
+avereage_recall = 0.2409752547307132
+average_f1 = 0.2965548978307749
+total_cm = [[17390.  5005.]
+ [10429.  3311.]]
+
+dataset = mirai, epochs = 800, epoch_1 = 1, percent = 0.8, flip_percent = 0.05, sample_interval = 2784, cuda_num = 0
+average_accuracy = 0.5551957935519579
+average_precision = 0.39801312369719244
+avereage_recall = 0.32066957787481803
+average_f1 = 0.3394065317230441
+total_cm = [[15656.  6739.]
+ [ 9334.  4406.]]
+

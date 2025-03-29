@@ -1,0 +1,11 @@
+                precision    recall  f1-score   support
+
+          DDoS     0.9079    0.9085    0.9082    131974
+           DoS     0.8910    0.8922    0.8916    113042
+        Normal     0.6984    0.7448    0.7208       286
+Reconnaissance     0.9906    0.9868    0.9887     54650
+         Theft     1.0000    0.0417    0.0800        48
+
+      accuracy                         0.9163    300000
+     macro avg     0.8976    0.7148    0.7179    300000
+  weighted avg     0.9164    0.9163    0.9163    300000
