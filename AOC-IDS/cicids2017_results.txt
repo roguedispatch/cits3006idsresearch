@@ -1,0 +1,8 @@
+dataset = cicids2017, epochs = 500, epoch_1 = 1, percent = 0.8, flip_percent = 0.05, sample_interval = 2784, cuda_num = 0
+average_accuracy = 0.32125478745212543
+average_precision = 0.25807917172967665
+avereage_recall = 0.9180578850040856
+average_f1 = 0.39706156385783703
+total_cm = [[ 53891. 329849.]
+ [  9527. 106738.]]
+

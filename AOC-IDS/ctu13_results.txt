@@ -1,0 +1,8 @@
+dataset = ctu13, epochs = 500, epoch_1 = 1, percent = 0.8, flip_percent = 0.05, sample_interval = 2784, cuda_num = 0
+average_accuracy = 0.52616
+average_precision = 0.551697701122875
+avereage_recall = 0.35902399999999995
+average_f1 = 0.4334871062972231
+total_cm = [[86662. 38338.]
+ [80122. 44878.]]
+

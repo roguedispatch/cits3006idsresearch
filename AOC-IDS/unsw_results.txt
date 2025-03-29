@@ -1,0 +1,14 @@
+dataset = unsw, epochs = 800, epoch_1 = 1, percent = 0.8, flip_percent = 0.05, sample_interval = 2784, cuda_num = 0
+average_accuracy = 0.896054996842054
+average_precision = 0.9388920928017574
+avereage_recall = 0.869266743139504
+average_f1 = 0.9017250598010342
+
+dataset = unsw, epochs = 500, epoch_1 = 1, percent = 0.8, flip_percent = 0.05, sample_interval = 2784, cuda_num = 0
+average_accuracy = 0.8931448282563281
+average_precision = 0.905974429985782
+avereage_recall = 0.9006397246977851
+average_f1 = 0.9027971092128386
+total_cm = [[163533.  21467.]
+ [ 22521. 204139.]]
+
